@@ -22,15 +22,15 @@ http.createServer(function(req, res) {
 }).listen(process.env.PORT || 8000);
 */
 // PART 2
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8000;
 var requestListener = function (req, res) {
   fs.stat('index.html', function(error, stats) {
-    if (err) {
-      return console.log(err);
+    if (error) {
+      return console.log(error);
     }
     fs.open('index.html', 'r', function(error, fd) {
-      if (err) {
-        return console.log(err);
+      if (error) {
+        return console.log(error);
       }
       var buffersize = stats.size;
       var buffer = new Buffer(buffersize);
