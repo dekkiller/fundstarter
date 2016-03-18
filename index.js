@@ -36,10 +36,10 @@ var requestListener = function (req, res) {
       var buffer = new Buffer(buffersize);
       fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
         var data = buffer.toString('utf8');
-        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.writeHeader(200, { 'Content-Type': 'text/html' });
         res.write(data);
         res.end();
-        fs.close(fd);
+        
       });
     });
 
