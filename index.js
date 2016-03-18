@@ -25,10 +25,32 @@ http.createServer(function(req, res) {
 var port = process.env.PORT || 8080;
 var requestListener = function (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' });
+  fs.stat('index.html', function(error, stats) {
+    if (err) {
+    	return console.log(err);
+    }
+    fs.open('index.html', 'r', function(error, fd) {
+      if (err) {
+    		return console.log(err);
+      }
+      var buffersize = stats.size;
+      var buffer = new Buffer(buffersize);
+      var bufferreader = 0;
+      var csize = 512;
+      while ( bufferreader < buffersize ) {
+        if ((bufferreader + csize) > buffersize) {
+          csize = (buffersize - bufferreader);
+        }
+      fs.read(fd, buffer, bufferreader, csize, bufferreader);
+      bufferreader = bufferreader + csize;
+      }
+      res.write(buffer.toString('utf8', 0, buffersize)); 
+      res.end();
+      fs.close(fd);
+    });
+  });
 
-
-  res.end();
-}
+};
 
 var server = http.createServer(requestListener);
 server.listen(port);
